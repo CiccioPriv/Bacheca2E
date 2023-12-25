@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <!-- _____ _          _        ______     _       
+        /  __ (_)        (_)       | ___ \   (_)      
+        | /  \/_  ___ ___ _  ___   | |_/ / __ ___   __
+        | |   | |/ __/ __| |/ _ \  |  __/ '__| \ \ / /
+        | \__/\ | (_| (__| | (_) | | |  | |  | |\ V / 
+         \____/_|\___\___|_|\___/  \_|  |_|  |_| \_/   -->
+       <title>Orario</title>  
+       <meta name="author" content="Ciccio Priv">     
+       <meta name="keywords" content="Bacheca, 2Es, Scuola, Liceo, Scientifico">
+       <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">                                                                                   
+    </head>
+    <style>
+ body, html {
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+            font-family: sans-serif;
+        }
+
+        canvas {
+            display: block;
+            background-color: #fff;
+        }
+      </style>
+    <body>
+      
+        <h1>Prenditi un po di tempo per disegnare quello che vuoi</h1>
+        <p>E perchè proprio delle svastiche</p>
+    </body>
+    <canvas id="lavagna" width="800" height="600"></canvas>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const canvas = document.getElementById('lavagna');
+          const context = canvas.getContext('2d');
+          let isDrawing = false;
+
+          // Imposta la dimensione del canvas per coprire l'intera finestra
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+
+          function getMousePos(e) {
+              const rect = canvas.getBoundingClientRect();
+              return {
+                  x: e.clientX - rect.left,
+                  y: e.clientY - rect.top
+              };
+          }
+
+          function startDrawing(e) {
+              isDrawing = true;
+              const pos = getMousePos(e);
+              context.beginPath();
+              context.moveTo(pos.x, pos.y);
+          }
+
+          function stopDrawing() {
+              isDrawing = false;
+          }
+
+          function draw(e) {
+              if (!isDrawing) return;
+
+              const pos = getMousePos(e);
+
+              context.lineWidth = 5;
+              context.lineCap = 'round';
+              context.strokeStyle = '#000';
+
+              context.lineTo(pos.x, pos.y);
+              context.stroke();
+          }
+
+          canvas.addEventListener('mousedown', startDrawing);
+          canvas.addEventListener('mouseup', stopDrawing);
+          canvas.addEventListener('mousemove', draw);
+
+          // Aggiorna la dimensione del canvas quando la finestra viene ridimensionata
+          window.addEventListener('resize', () => {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+          });
+      });
+  </script>
+</html>
